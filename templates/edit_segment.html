@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Segment{% endblock %}
+
+{% block content %}
+    <h2>Edit Segment</h2>
+    {% if current_user.is_authenticated and current_user.id == segment.story.author_id %}
+        <form method="post">
+            <textarea name="segment_content" required>{{ segment.content }}</textarea>
+            <input type="submit" value="Update Segment" class="btn btn-primary">
+        </form>
+    {% else %}
+        <p>You must be logged in and be the author of this story to edit segments.</p>
+    {% endif %}
+    <form action="{{ url_for('add_choices', segment_id=segment.id) }}" method="post">
+        <div class="form-group">
+            <label for="choice_text_1">Choice 1 Text:</label>
+            <input type="text" id="choice_text_1" name="choice_text_1" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="next_segment_id_1">Next Segment for Choice 1:</label>
+            <select id="next_segment_id_1" name="next_segment_id_1" class="form-control" required>
+                {% for seg in story.segments %}
+                    <option value="{{ seg.id }}">{{ seg.title }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="choice_text_2">Choice 2 Text:</label>
+            <input type="text" id="choice_text_2" name="choice_text_2" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="next_segment_id_2">Next Segment for Choice 2:</label>
+            <select id="next_segment_id_2" name="next_segment_id_2" class="form-control" required>
+                {% for seg in story.segments %}
+                    <option value="{{ seg.id }}">{{ seg.title }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <input type="submit" value="Add Choices" class="btn btn-primary">
+    </form>
+<select id="next_segment_id_1" name="next_segment_id_1" class="form-control" required onchange="checkForNewSegment(this)">
+    {% for seg in story.segments %}
+        <option value="{{ seg.id }}">{{ seg.content | truncate(50, true, '...') }}</option>
+    {% endfor %}
+    <option value="new_segment">Add New Segment</option>
+</select>
+<script>
+function checkForNewSegment(selectElement) {
+    if (selectElement.value === "new_segment") {
+        // Open modal or redirect to create a new segment
+        window.location.href = "{{ url_for('create_segment', story_id=segment.story.id) }}";
+    }
+}
+</script>
+{% endblock %}

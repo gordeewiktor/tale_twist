@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Read Story: {{ story.title }}{% endblock %}
+
+{% block content %}
+    <h2>{{ story.title }}</h2>
+    <p>{{ segment.content }}</p>
+
+    {% if segment.choices %}
+        <h3>Make a Choice</h3>
+        <ul>
+            {% for choice in segment.choices %}
+                <li>
+                    <a href="{{ url_for('read_story', story_id=story.id, segment_id=choice.next_segment_id) }}">
+                        {{ choice.text }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if current_user.is_authenticated and current_user.id == story.author_id %}
+        <p><a href="{{ url_for('edit_segment', segment_id=segment.id) }}">Edit This Segment</a></p>
+    {% endif %}
+{% endblock %}
