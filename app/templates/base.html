@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <title>{% block title %}Tale Twist App{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <!-- Your site's header content goes here -->
+        <h1>Welcome to Tale Twist</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('main.home') }}">Home</a></li>
+            <li><a href="{{ url_for('stories.index') }}">Stories</a></li>
+            {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('auth.profile') }}">Profile</a></li>
+                <li><a href="{{ url_for('stories.create_story') }}">Create Story</a></li>
+                <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+            {% else %}
+                <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+                <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <main>
+        {% block content %}
+        <!-- Main content will be rendered here -->
+        {% endblock %}
+    </main>
+
+    <footer>
+        <!-- Your site's footer content goes here -->
+        <p>© 2024 Tale Twist</p>
+    </footer>
+
+    {% block scripts %}
+    <!-- JavaScript files and scripts will be rendered here -->
+    {% endblock %}
+</body>
+</html>

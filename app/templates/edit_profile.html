@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+    <h1>Edit Profile</h1>
+    {% if current_user.is_authenticated %}
+        <form method="post">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.username.label }} 
+                {{ form.username(class="form-control") }}
+                {% if form.username.errors %}
+                    <div class="alert alert-danger">
+                        {{ form.username.errors[0] }}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.email.label }} 
+                {{ form.email(class="form-control") }}
+                {% if form.email.errors %}
+                    <div class="alert alert-danger">
+                        {{ form.email.errors[0] }}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.new_password.label }} 
+                {{ form.new_password(class="form-control") }}
+                {% if form.new_password.errors %}
+                    <div class="alert alert-danger">
+                        {{ form.new_password.errors[0] }}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
+        </form>
+    {% else %}
+        <p>Please <a href="{{ url_for('auth.login') }}">login</a> to edit your profile.</p>
+    {% endif %}
+{% endblock %}

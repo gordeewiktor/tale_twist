@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Read Story: {{ story.title }}{% endblock %}
+
+{% block content %}
+    {% if segment.is_first %}
+        <h2>{{ story.title }}</h2>
+    {% else %}
+        <h2>{{ segment.title }}</h2>
+    {% endif %}
+    <p>{{ segment.content }}</p>
+
+    <!-- Adjusted condition: Check only for the presence of choices -->
+    <h3>{% if choices %}Make a Choice{% else %}The End{% endif %}</h3>
+
+    <!-- Display choices if any -->
+    {% if choices %}
+        <ul>
+            {% for choice in choices %}
+                <li>
+                    {% if choice.next_segment_id %}
+                        <!-- If there is a next segment, provide a link -->
+                        <a href="{{ url_for('stories.read_story', story_id=story.id, segment_id=choice.next_segment_id) }}">{{ choice.text }}</a>
+                    {% else %}
+                        <!-- Otherwise, just display the choice text -->
+                        {{ choice.text }}
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <!-- Options for story authors to manage segments -->
+    {% if current_user.is_authenticated and current_user.id == story.author_id %}
+        <p><a href="{{ url_for('stories.add_segment', story_id=story.id) }}">Add a new segment</a></p>
+        <p><a href="{{ url_for('stories.edit_segment', segment_id=segment.id, story_id=story.id) }}">Edit This Segment</a></p>
+        <p><a href="{{ url_for('stories.manage_story', story_id=story.id) }}">Edit Story</a></p>
+    {% endif %}
+{% endblock %}
