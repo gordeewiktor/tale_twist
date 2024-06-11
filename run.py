@@ -1,6 +1,7 @@
 from app import create_app, db
+import os
 
-app = create_app('production')  # Set to 'production' for Heroku deployment
+app = create_app(os.getenv('FLASK_CONFIG') or 'production')  # Set to 'production' for Heroku deployment
 
 with app.app_context():
     try:
@@ -11,4 +12,4 @@ with app.app_context():
         print("Failed to create database tables:", e)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host='0.0.0.0', port=8080, debug=True)

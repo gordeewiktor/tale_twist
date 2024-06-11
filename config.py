@@ -23,4 +23,5 @@ config_by_name = {
     'development': Config,
     'production': ProductionConfig,
     'testing': TestingConfig,
+    # Add other configurations if you have them
 }
