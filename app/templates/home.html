@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Stories{% endblock %}
+
+{% block content %}
+    <h2>Available Stories</h2>
+    <ul>
+        {% for story, first_segment_id in stories %}
+            <li>
+                {% if current_user.is_authenticated and current_user.id == story.author_id %}
+                    <!-- If the user is the author, link to the manage story page -->
+                    <a href="{{ url_for('stories.manage_story', story_id=story.id) }}">
+                        {{ story.title }} - Manage
+                    </a>
+                {% elif first_segment_id %}
+                    <!-- Link to read the story starting from the first segment -->
+                    <a href="{{ url_for('stories.read_story', story_id=story.id, segment_id=first_segment_id) }}">
+                        {{ story.title }}
+                    </a>
+                {% else %}
+                    <!-- Display story title and author with a direct link to add the first segment if no segments are present -->
+                    {{ story.title }} - {{ story.author.username }}
+                    <a href="{{ url_for('stories.add_segment', story_id=story.id) }}">(Add first segment)</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+    {% if current_user.is_authenticated %}
+        <p><a href="{{ url_for('stories.create_story') }}">Create a New Story</a></p>
+    {% endif %}
+{% endblock %}

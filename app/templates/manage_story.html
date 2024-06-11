@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Story: {{ story.title }}{% endblock %}
+
+{% block content %}
+<h2>Manage Story: {{ story.title }}</h2>
+{% if current_user.is_authenticated and current_user.id == story.author_id %}
+    <!-- Display all segments for the author -->
+    <div class="segments">
+        {% for segment in segments %}
+            <div id="segment-{{ segment.id }}" class="segment">
+                <h3>{{ segment.title }}</h3>
+                <p>{{ segment.content | truncate(150) }}</p>
+                <div class="choices">
+                    <p>Choices:</p>
+                    {% if segment.choices %}
+                        <ul>
+                            {% for choice in segment.choices %}
+                                {% if choice.next_segment_id %}
+                                    <li><a href="#segment-{{ choice.next_segment_id }}" class="choice-link">{{ choice.text }}</a></li>
+                                {% else %}
+                                    <li>{{ choice.text }}</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>The segment has no choices.</p>
+                    {% endif %}
+                </div>
+                <a href="{{ url_for('stories.edit_segment', story_id=story.id, segment_id=segment.id) }}" class="btn btn-info">Edit Segment</a>
+                <form action="{{ url_for('stories.delete_segment', story_id=story.id, segment_id=segment.id) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this segment?');">
+                    {{ form.hidden_tag() }}  <!-- Add CSRF token here -->
+                    <button type="submit" class="btn btn-danger">Delete Segment</button>
+                </form>
+            </div>
+        {% endfor %}
+        <a href="{{ url_for('stories.add_segment', story_id=story.id) }}" class="btn btn-success">Add New Segment</a>
+    </div>
+    <form action="{{ url_for('stories.delete_story', story_id=story.id) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this story? All segments will be deleted.');">
+        {{ form.hidden_tag() }}  <!-- Add CSRF token here -->
+        <button type="submit" class="btn btn-danger">Delete Story</button>
+    </form>
+    <a href="{{ url_for('stories.index') }}" class="btn btn-secondary">Back to Stories</a>
+{% else %}
+    <p>You do not have permission to edit this story.</p>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+    console.log('Script loaded'); // Console log to check if the script is executed
+
+    document.addEventListener('DOMContentLoaded', function () {
+        console.log('DOMContentLoaded event triggered'); // Debugging message
+
+        const url = new URL(window.location);
+        const hash = url.hash;
+
+        if (hash) {
+            console.log('Hash found:', hash); // Debugging message
+            const element = document.querySelector(hash);
+            if (element) {
+                console.log('Element found:', element); // Debugging message
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                element.classList.add('highlight');
+
+                setTimeout(() => {
+                    console.log('Removing highlight'); // Debugging message
+                    element.classList.remove('highlight');
+                }, 2000);
+            } else {
+                console.log('Element not found for hash:', hash); // Debugging message
+            }
+        }
+
+        document.querySelectorAll('.choice-link').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                console.log('Choice link clicked:', targetId); // Debugging message
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    console.log('Target element found:', targetElement); // Debugging message
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    targetElement.classList.add('highlight');
+
+                    setTimeout(() => {
+                        console.log('Removing highlight'); // Debugging message
+                        targetElement.classList.remove('highlight');
+                    }, 2000);
+                } else {
+                    console.log('Target element not found:', targetId); // Debugging message
+                }
+            });
+        });
+    });
+</script>
+<style>
+    .highlight {
+        background-color: yellow;
+        transition: background-color 2s ease;
+    }
+</style>
+{% endblock %}

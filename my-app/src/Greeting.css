@@ -1,0 +1,17 @@
+/* src/Greeting.css */
+.greeting-container {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  .greeting {
+    font-family: Arial, sans-serif;
+    color: blue;
+  }
+  
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+    <h1>Profile</h1>
+    {% if current_user.is_authenticated %}
+        <form method="POST" action="{{ url_for('auth.profile') }}">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                <label for="username">Username</label>
+                {{ form.username(class="form-control", id="username") }}
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                {{ form.email(class="form-control", id="email") }}
+            </div>
+            <div class="form-group">
+                <label for="new_password">New Password (leave blank to keep current password)</label>
+                {{ form.new_password(class="form-control", id="new_password") }}
+            </div>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
+        </form>
+    {% else %}
+        <p>Please <a href="{{ url_for('auth.login') }}">login</a> to view this page.</p>
+    {% endif %}
+{% endblock %}

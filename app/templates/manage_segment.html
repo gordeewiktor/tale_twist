@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ 'Edit' if segment.id else 'Add' }} Segment to "{{ story.title }}"{% endblock %}
+
+{% block content %}
+<h2>{{ 'Edit' if segment.id else 'Add' }} Segment for "{{ story.title }}"</h2>
+<form method="post">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        {{ form.title.label(class="form-label") }}
+        {{ form.title(class="form-control") }}
+        {% if form.title.errors %}
+            <div class="alert alert-danger">{{ form.title.errors[0] }}</div>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{ form.content.label(class="form-label") }}
+        {{ form.content(class="form-control") }}
+        {% if form.content.errors %}
+            <div class="alert alert-danger">{{ form.content.errors[0] }}</div>
+        {% endif %}
+    </div>
+    <!-- Choice fields -->
+    <div class="form-group">
+        {{ form.choice_text_1.label(class="form-label") }}
+        {{ form.choice_text_1(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.next_segment_id_1.label(class="form-label") }}
+        {{ form.next_segment_id_1(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.choice_text_2.label(class="form-label") }}
+        {{ form.choice_text_2(class="form-control") }}
+    </div>
+    <div class="form-group">
+        {{ form.next_segment_id_2.label(class="form-label") }}
+        {{ form.next_segment_id_2(class="form-control") }}
+    </div>
+    <button type="submit" class="btn btn-primary">{{ 'Update' if segment.id else 'Create' }} Segment</button>
+    {% if segment.id %}
+    <button type="submit" name="delete" class="btn btn-danger">Delete Segment</button>
+    {% endif %}
+</form>
+{% endblock %}

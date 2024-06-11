@@ -1,0 +1,135 @@
+/* Reset some default browser styles */
+body, h1, h2, h3, p, form, ul, li, a {
+    margin: 0;
+    padding: 0;
+    text-decoration: none; /* Remove default underline from links */
+    list-style: none; /* Remove default list styles from ul and li */
+}
+
+/* Basic body styles */
+body {
+    font-family: Arial, sans-serif; /* Set the default font family */
+    line-height: 1.6; /* Set the line height for better readability */
+    padding: 20px; /* Add padding around the body */
+    background-color: #f4f4f4; /* Set the background color */
+    color: #333; /* Set the default text color */
+}
+
+/* Header styles */
+header {
+    background: #333; /* Set the background color */
+    color: #fff; /* Set the text color */
+    padding: 10px 20px; /* Add padding */
+    text-align: center; /* Center-align the text */
+}
+
+header a {
+    color: #fff; /* Set the link color */
+    text-decoration: none; /* Remove underline from links */
+}
+
+/* Navigation bar styles */
+nav {
+    background: #444; /* Set the background color */
+    color: #fff; /* Set the text color */
+    display: flex; /* Use flexbox for layout */
+    justify-content: center; /* Center the items horizontally */
+    padding: 10px 0; /* Add padding to the top and bottom */
+}
+
+nav a {
+    color: #fff; /* Set the link color */
+    margin: 0 10px; /* Add horizontal margin between links */
+    text-decoration: none; /* Remove underline from links */
+}
+
+nav a:hover {
+    text-decoration: underline; /* Add underline on hover */
+}
+
+/* Main content styles */
+main {
+    padding: 20px; /* Add padding around the content */
+    background: #fff; /* Set the background color */
+    margin-top: 20px; /* Add margin to the top */
+    padding-bottom: 80px; /* Add bottom padding to make space for the footer */
+}
+
+/* Footer styles */
+footer {
+    text-align: center; /* Center-align the text */
+    padding: 20px 0; /* Add padding to the top and bottom */
+    background: #333; /* Set the background color */
+    color: #fff; /* Set the text color */
+    position: relative; /* Change to relative positioning */
+    bottom: 0; /* Align the footer to the bottom */
+    width: 100%; /* Make the footer span the full width */
+}
+
+/* Utility classes */
+.container {
+    width: 80%; /* Set the width of the container */
+    margin: auto; /* Center the container */
+    overflow: hidden; /* Clear floats and prevent overflow */
+}
+
+.btn {
+    display: inline-block; /* Display as an inline block */
+    padding: 10px 20px; /* Add padding */
+    margin: 5px; /* Add margin */
+    background: #007BFF; /* Set the background color */
+    color: white; /* Set the text color */
+    border-radius: 5px; /* Add rounded corners */
+    text-align: center; /* Center-align the text */
+}
+
+.btn:hover {
+    background: #0056b3; /* Darken the background on hover */
+}
+
+/* Alert styles */
+.alert {
+    padding: 10px; /* Add padding */
+    background: #f2dede; /* Set the background color */
+    color: #a94442; /* Set the text color */
+    margin: 5px 0; /* Add vertical margin */
+    border-radius: 5px; /* Add rounded corners */
+}
+
+.alert-success {
+    background: #dff0d8; /* Set the background color for success */
+    color: #3c763d; /* Set the text color for success */
+}
+
+.alert-info {
+    background: #d9edf7; /* Set the background color for info */
+    color: #31708f; /* Set the text color for info */
+}
+
+/* Responsive styling */
+@media (max-width: 600px) {
+    .container {
+        width: 95%; /* Increase the width to 95% on small screens */
+    }
+}
+
+/* Custom error page styles */
+.error-page {
+    text-align: center;
+    padding: 50px;
+}
+
+.error-page h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.error-page p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+.error-page .btn {
+    padding: 10px 20px;
+    font-size: 1em;
+}

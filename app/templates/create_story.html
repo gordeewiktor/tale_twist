@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Story{% endblock %}
+
+{% block content %}
+    <h2>Create a New Story</h2>
+    {% if current_user.is_authenticated %}
+        <form method="post">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.title.label(class="form-label") }}
+                {{ form.title(class="form-control") }}
+                {% if form.title.errors %}
+                    <div class="alert alert-danger">
+                        {{ form.title.errors[0] }}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.description.label(class="form-label") }}
+                {{ form.description(class="form-control") }}
+                {% if form.description.errors %}
+                    <div class="alert alert-danger">
+                        {{ form.description.errors[0] }}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.genre.label(class="form-label") }}
+                {{ form.genre(class="form-control") }}
+                {% if form.genre.errors %}
+                    <div class="alert alert-danger">
+                        {{ form.genre.errors[0] }}
+                    </div>
+                {% endif %}
+            </div>
+            <input type="submit" value="Create Story" class="btn btn-primary">
+        </form>
+    {% else %}
+        <p>You must be logged in to create stories. Please <a href="{{ url_for('auth.login') }}">login</a> or <a href="{{ url_for('auth.register') }}">register</a> if you don't have an account.</p>
+    {% endif %}
+{% endblock %}
