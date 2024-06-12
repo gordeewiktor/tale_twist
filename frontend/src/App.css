@@ -36,15 +36,3 @@
     transform: rotate(360deg);
   }
 }
-.App-header ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.App-header li {
-  background-color: #282c34;
-  color: white;
-  margin: 10px 0;
-  padding: 10px;
-  border-radius: 5px;
-}

@@ -1,5 +1,5 @@
 # app/blueprints/main.py
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, jsonify
 from app.models import Story, Segment  # Adjust the import statement like this
 from sqlalchemy.orm import joinedload
 
@@ -19,3 +19,10 @@ def home():
             stories_with_first_segment.append((story, None))
     
     return render_template('home.html', stories=stories_with_first_segment)
+
+# Add an API route to get stories
+@main_bp.route('/api/stories', methods=['GET'])
+def get_stories():
+    all_stories = Story.query.all()
+    stories = [{'id': story.id, 'title': story.title, 'description': story.description} for story in all_stories]
+    return jsonify(stories)
