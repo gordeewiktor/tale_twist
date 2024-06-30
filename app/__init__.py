@@ -1,5 +1,5 @@
 # app/__init__.py
-from flask import Flask, request, flash, redirect, render_template, jsonify, Blueprint, send_from_directory
+from flask import Flask, request, flash, redirect, render_template, jsonify, Blueprint
 from .extensions import db, login_manager, mail, csrf
 from flask_migrate import Migrate
 from app.blueprints.main import main_bp
@@ -44,43 +44,31 @@ def register():
     db.session.commit()
     return jsonify({'message': 'Registration successful!'}), 201
 
-def create_app(config_name='production'):  # Use 'production' if deploying to production
-    app = Flask(__name__, static_folder='../frontend/build')
+def create_app(config_name='production'):
+    app = Flask(__name__)
     app.config.from_object(config_by_name[config_name])
 
     db.init_app(app)
     login_manager.init_app(app)
     mail.init_app(app)
     csrf.init_app(app)
-    migrate = Migrate(app, db)  # Initialize Flask-Migrate
+    migrate = Migrate(app, db)
 
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(stories_bp, url_prefix='/stories')
     app.register_blueprint(main_bp, url_prefix='/')
     app.register_blueprint(api_bp, url_prefix='/')
 
-    # Serve React frontend
-    @app.route('/', defaults={'path': ''})
-    @app.route('/<path:path>')
-    def serve_react_app(path):
-        if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
-            return send_from_directory(app.static_folder, path)
-        else:
-            return send_from_directory(app.static_folder, 'index.html')
-
-    # Define the global error handler for SQLAlchemy IntegrityError
     @app.errorhandler(sqlalchemy.exc.IntegrityError)
     def handle_integrity_error(e):
         db.session.rollback()
         flash('A database error occurred. Please check your inputs.', 'danger')
         return redirect(request.url)
 
-    # Define error handler for 404 Not Found
     @app.errorhandler(404)
     def not_found_error(error):
         return render_template('404.html'), 404
 
-    # Define error handler for 500 Internal Server Error
     @app.errorhandler(500)
     def internal_error(error):
         db.session.rollback()
