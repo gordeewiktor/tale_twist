@@ -1,0 +1,63 @@
+h2 {
+    margin-bottom: 20px;
+  }
+  
+  .segment {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+  }
+  
+  .segment h3 {
+    margin-bottom: 10px;
+  }
+  
+  .segment p {
+    font-size: 1.1em;
+  }
+  
+  .choices ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .choices li {
+    margin-bottom: 5px;
+  }
+  
+  .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  
+  .btn-info {
+    background-color: #17a2b8;
+    color: white;
+  }
+  
+  .btn-danger {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .btn-success {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .btn-secondary {
+    background-color: #6c757d;
+    color: white;
+  }
+  
+  .highlight {
+    background-color: yellow;
+    transition: background-color 2s ease;
+  }
+  
